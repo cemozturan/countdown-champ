@@ -11,15 +11,22 @@ class App extends Component {
 			newDeadline: ''
 		};
 		this.changeDeadline = this.changeDeadline.bind(this);
+		this.handleChangeDeadline = this.handleChangeDeadline.bind(this);
 		this.handleDateChange = this.handleDateChange.bind(this);
 	}
 
 	changeDeadline() {
 		this.setState((prevState) => {
 			return {
-				deadline: prevState.newDeadline
+				deadline: prevState.newDeadline,
+				newDeadline: ''
 			};
 		});
+	}
+
+	handleChangeDeadline(evt) {
+		evt.preventDefault();
+		this.changeDeadline();
 	}
 
 	handleDateChange(evt) {
@@ -38,11 +45,12 @@ class App extends Component {
 					<div className="app-title">Countdown to {this.state.deadline}</div>
 					<Clock deadline={this.state.deadline}/>
 				</div>
-				<Form inline>
+				<Form inline onSubmit={this.handleChangeDeadline}>
 					<FormControl
 						className="deadline-input"
 						placeholder="new date here"
 						onChange={this.handleDateChange}
+						value={this.state.newDeadline}
 					/>
 					<Button onClick={this.changeDeadline}>Submit</Button>
 				</Form>
